@@ -30,6 +30,7 @@ namespace Domain.Entities
         public string? PhoneNumber { get; set; }
 
         public EducationalLevel? Grade { get; set; } // FirstYear, SecondYear, ThirdYear
+        public DateTime CreatedAt { get; set; }
         public DateTime RegistrationDate { get; set; }
         public DateTime? LastActiveDate { get; set; }
         public bool IsOnline { get; set; }
