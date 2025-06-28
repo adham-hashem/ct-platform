@@ -29,8 +29,6 @@ namespace Domain.Entities
         public string Requirements { get; set; } = string.Empty;
         [StringLength(1000)]
         public string WhatStudentsWillLearn { get; set; } = string.Empty;
-        public string TeacherId { get; set; }
-        public ApplicationUser Teacher { get; set; }
         public List<Lesson> Lessons { get; set; } = new List<Lesson>();
         public List<Review> Reviews { get; set; } = new List<Review>();
     }
