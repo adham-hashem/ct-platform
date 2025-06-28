@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250628022106_Initial")]
+    [Migration("20250628032505_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -195,18 +195,12 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("TeacherId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("WhatStudentsWillLearn")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TeacherId");
 
                     b.ToTable("Courses");
                 });
@@ -392,7 +386,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.PrimitiveCollection<string>("SubscribedMonths")
+                    b.Property<string>("SubscribedMonths")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -560,17 +554,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Lesson");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Course", b =>
-                {
-                    b.HasOne("Domain.Entities.ApplicationUser", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("Domain.Entities.Lesson", b =>

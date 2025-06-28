@@ -60,6 +60,26 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Courses",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EducationalLevel = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    IntroductoryVideoUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    ShortDescription = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    DetailedDescription = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    Requirements = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    WhatStudentsWillLearn = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -163,32 +183,6 @@ namespace Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    EducationalLevel = table.Column<int>(type: "int", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    IntroductoryVideoUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    ShortDescription = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    DetailedDescription = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    Requirements = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    WhatStudentsWillLearn = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    TeacherId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Courses_AspNetUsers_TeacherId",
-                        column: x => x.TeacherId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -412,11 +406,6 @@ namespace Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Courses_TeacherId",
-                table: "Courses",
-                column: "TeacherId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Lessons_CourseId",
                 table: "Lessons",
                 column: "CourseId");
@@ -500,10 +489,10 @@ namespace Infrastructure.Migrations
                 name: "Lessons");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Courses");
         }
     }
 }
