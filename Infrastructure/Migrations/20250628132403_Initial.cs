@@ -239,7 +239,9 @@ namespace Infrastructure.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SubscribedMonths = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Grade = table.Column<int>(type: "int", nullable: false)
+                    Grade = table.Column<int>(type: "int", nullable: false),
+                    LectureCount = table.Column<int>(type: "int", nullable: true),
+                    AccessedLessons = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -441,9 +443,9 @@ namespace Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subscriptions_UserId",
+                name: "IX_Subscriptions_UserId_Grade",
                 table: "Subscriptions",
-                column: "UserId");
+                columns: new[] { "UserId", "Grade" });
         }
 
         /// <inheritdoc />

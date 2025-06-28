@@ -9,7 +9,7 @@ namespace Domain.Enums
     public enum SubscriptionType
     {
         Monthly,
-        Quarterly,
-        Yearly
+        Yearly,
+        LectureBased
     }
 }

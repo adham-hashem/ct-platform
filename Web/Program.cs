@@ -88,25 +88,29 @@ var app = builder.Build();
 //    app.UseSwaggerUI();
 //}
 
+// Seed data
+await SeedData.InitializeAsync(app.Services);
+
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseRateLimiter();
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
+app.UseStaticFiles();
+//app.UseAuthentication();
+//app.UseAuthorization();
+//app.MapControllers();
 
 // Seed roles
-using (var scope = app.Services.CreateScope())
-{
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    string[] roles = new[] { "Teacher", "Student" };
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+//    string[] roles = new[] { "Teacher", "Student" };
+//    foreach (var role in roles)
+//    {
+//        if (!await roleManager.RoleExistsAsync(role))
+//        {
+//            await roleManager.CreateAsync(new IdentityRole(role));
+//        }
+//    }
+//}
 
 app.Run();

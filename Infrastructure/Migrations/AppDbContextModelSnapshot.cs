@@ -374,10 +374,17 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("AccessedLessons")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Grade")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LectureCount")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
@@ -396,7 +403,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "Grade");
 
                     b.ToTable("Subscriptions");
                 });

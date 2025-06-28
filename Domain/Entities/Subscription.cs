@@ -22,5 +22,7 @@ namespace Domain.Entities
         public List<int> SubscribedMonths { get; set; } = new List<int>(); // 1-12
         [Required]
         public EducationalLevel Grade { get; set; } // FirstYear, SecondYear, ThirdYear
+        public int? LectureCount { get; set; } // Number of lectures (10, 25, 50 for lecture-based subscriptions)
+        public List<Guid> AccessedLessons { get; set; } = new List<Guid>(); // Tracks lessons accessed under this subscription
     }
 }

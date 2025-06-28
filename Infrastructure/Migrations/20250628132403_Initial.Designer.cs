@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250628032505_Initial")]
+    [Migration("20250628132403_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -377,10 +377,17 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("AccessedLessons")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Grade")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LectureCount")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
@@ -399,7 +406,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "Grade");
 
                     b.ToTable("Subscriptions");
                 });
