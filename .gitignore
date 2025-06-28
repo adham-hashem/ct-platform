@@ -1,0 +1,9 @@
+.vs
+.env
+obj
+bin
+
+f.py
+f.bat
+f.txt
+
