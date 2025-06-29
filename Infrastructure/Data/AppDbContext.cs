@@ -174,6 +174,7 @@ namespace Infrastructure.Data
 
             builder.Entity<LessonAccessCode>()
                 .HasIndex(lac => lac.LessonId);
+
         }
     }
 }
