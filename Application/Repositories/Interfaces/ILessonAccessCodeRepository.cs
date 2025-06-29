@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
 
-namespace Application.Interfaces
+namespace Application.Repositories.Interfaces
 {
     public interface ILessonAccessCodeRepository
     {
