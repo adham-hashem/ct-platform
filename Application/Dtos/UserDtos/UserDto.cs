@@ -19,7 +19,7 @@ namespace Application.Dtos.UserDtos
         
         [Required]
         public string LastName { get; set; }
-        
+            
         [Required]
         public string Grade { get; set; }
         public DateTime CreatedAt { get; set; }
