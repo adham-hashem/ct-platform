@@ -29,6 +29,7 @@ namespace Infrastructure.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<LessonAccessCode> LessonAccessCodes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -128,6 +129,10 @@ namespace Infrastructure.Data
                     ));
 
             builder.Entity<Subscription>()
+                .Property(s => s.Price)
+                .HasColumnType("decimal(18,2)");
+
+            builder.Entity<Subscription>()
                 .HasIndex(s => new { s.UserId, s.Grade });
 
             // Payment configuration
@@ -149,6 +154,26 @@ namespace Infrastructure.Data
 
             builder.Entity<Notification>()
                 .HasIndex(n => n.UserId);
+
+            // LessonAccessCode configuration
+            builder.Entity<LessonAccessCode>()
+                .HasOne(lac => lac.Lesson)
+                .WithMany()
+                .HasForeignKey(lac => lac.LessonId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<LessonAccessCode>()
+                .HasOne(lac => lac.User)
+                .WithMany()
+                .HasForeignKey(lac => lac.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<LessonAccessCode>()
+                .HasIndex(lac => lac.Code)
+                .IsUnique();
+
+            builder.Entity<LessonAccessCode>()
+                .HasIndex(lac => lac.LessonId);
         }
     }
 }
