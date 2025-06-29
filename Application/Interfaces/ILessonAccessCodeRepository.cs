@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Domain.Entities;
+
+namespace Application.Interfaces
+{
+    public interface ILessonAccessCodeRepository
+    {
+        Task<LessonAccessCode> GetByIdAsync(Guid id);
+        Task<LessonAccessCode> GetByCodeAsync(string code);
+        Task<List<LessonAccessCode>> GetByLessonIdAsync(Guid lessonId);
+        Task AddAsync(LessonAccessCode code);
+        Task UpdateAsync(LessonAccessCode code);
+        Task DeleteAsync(Guid id);
+        Task DeleteByLessonIdAsync(Guid lessonId);
+    }
+}
