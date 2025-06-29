@@ -10,6 +10,7 @@ namespace Application.Dtos.LessonAccessCodeDtos
     public class LessonAccessCodeDto
     {
         public Guid Id { get; set; }
+
         [Required]
         [StringLength(50)]
         public string Code { get; set; } = string.Empty;
