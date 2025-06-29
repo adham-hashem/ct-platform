@@ -14,5 +14,6 @@ namespace Application.Repositories.Interfaces
         Task AddAsync(Lesson lesson);
         Task UpdateAsync(Lesson lesson);
         Task DeleteAsync(Guid id);
+
     }
 }
