@@ -137,7 +137,7 @@ namespace Application.Services.Implementations
             // Check if access was granted via a code
             var hasAccessCode = await _lessonRepository.HasAccessCodeAsync(lessonId, userId);
             if (hasAccessCode)
-                return; // Access already granted via code, no need to mark in subscription
+                return; // Access already granted via code and no need to mark in subscription
 
             var subscriptions = await _subscriptionRepository.GetByUserIdAsync(userId);
             var validSubscription = subscriptions.FirstOrDefault(s =>
@@ -173,6 +173,7 @@ namespace Application.Services.Implementations
             {
                 await _subscriptionRepository.DeleteAsync(subscription.Id);
             }
+
         }
     }
 }
