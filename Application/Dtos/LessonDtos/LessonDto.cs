@@ -10,8 +10,10 @@ namespace Application.Dtos.LessonDtos
     public class LessonDto
     {
         public Guid Id { get; set; }
+
         [Required]
         public string Title { get; set; } = string.Empty;
+        
         [Required]
         public string VideoUrl { get; set; } = string.Empty;
         public bool IsFree { get; set; }
