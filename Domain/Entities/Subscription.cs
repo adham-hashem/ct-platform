@@ -32,5 +32,7 @@ namespace Domain.Entities
         [Range(0, double.MaxValue)]
         public decimal Price { get; set; }
         public List<Guid> AccessedLessons { get; set; } = new List<Guid>();
+        public bool IsActive { get; set; }
+        public List<Payment> Payments { get; set; } = new List<Payment>();
     }
 }
