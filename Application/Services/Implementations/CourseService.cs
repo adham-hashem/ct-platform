@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Dtos.CourseDtos;
+using Application.Repositories.Interfaces;
+using Application.Services.Interfaces;
+using AutoMapper;
+using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Services.Implementations
 {
