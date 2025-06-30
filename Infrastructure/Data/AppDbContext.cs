@@ -30,6 +30,7 @@ namespace Infrastructure.Data
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<LessonAccessCode> LessonAccessCodes { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -143,7 +144,24 @@ namespace Infrastructure.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Payment>()
+                .HasOne(p => p.Subscription)
+                .WithMany(s => s.Payments)
+                .HasForeignKey(p => p.SubscriptionId)
+                .OnDelete(DeleteBehavior.NoAction); // Changed to NoAction to avoid cascade path issue
+
+            builder.Entity<Payment>()
+                .Property(p => p.Amount)
+                .HasColumnType("decimal(18,2)");
+
+            builder.Entity<Payment>()
                 .HasIndex(p => p.UserId);
+
+            builder.Entity<Payment>()
+                .HasIndex(p => p.SubscriptionId);
+
+            builder.Entity<Payment>()
+                .HasIndex(p => p.TransactionId)
+                .IsUnique();
 
             // Notification configuration
             builder.Entity<Notification>()
@@ -175,6 +193,16 @@ namespace Infrastructure.Data
             builder.Entity<LessonAccessCode>()
                 .HasIndex(lac => lac.LessonId);
 
+            // RefreshToken configuration
+            builder.Entity<RefreshToken>()
+                .HasOne(rt => rt.User)
+                .WithMany()
+                .HasForeignKey(rt => rt.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<RefreshToken>()
+                .HasIndex(rt => rt.Token)
+                .IsUnique();
         }
     }
 }
