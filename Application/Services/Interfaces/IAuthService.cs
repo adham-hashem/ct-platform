@@ -9,7 +9,9 @@ namespace Application.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<string> RegisterAsync(RegisterDto registerDto);
-        Task<string> LoginAsync(LoginDto loginDto);
+        Task<TokenResponseDto> RegisterAsync(RegisterDto registerDto);
+        Task<TokenResponseDto> LoginAsync(LoginDto loginDto);
+        Task<TokenResponseDto> RefreshTokenAsync(string refreshToken);
+        Task RevokeRefreshTokenAsync(string refreshToken);
     }
 }
