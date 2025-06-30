@@ -11,15 +11,15 @@ namespace Domain.Entities
     public class Payment
     {
         public Guid Id { get; set; }
-        [Required]
-        public PaymentMethodType PaymentMethod { get; set; }
-        [StringLength(100)]
-        public string NameOnInvoice { get; set; } = string.Empty;
-        [StringLength(200)]
-        public string BillingAddress { get; set; } = string.Empty;
-        [StringLength(50)]
-        public string TaxNumber { get; set; } = string.Empty;
+        public Guid SubscriptionId { get; set; }
+        public Subscription Subscription { get; set; }
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
+        public decimal Amount { get; set; }
+        public string Currency { get; set; }
+        public string PaymentMethod { get; set; } // e.g., "Card", "VodafoneCash", "EtisalatCash"
+        public string TransactionId { get; set; }
+        public string Status { get; set; } // e.g., "Pending", "Completed", "Failed"
+        public DateTime CreatedAt { get; set; }
     }
 }
