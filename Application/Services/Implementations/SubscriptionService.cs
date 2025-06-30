@@ -43,6 +43,7 @@ namespace Application.Services.Implementations
             var subscription = _mapper.Map<Subscription>(subscriptionDto);
             subscription.Id = Guid.NewGuid();
             subscription.UserId = userId;
+            subscription.IsActive = subscriptionType == SubscriptionType.Monthly; // Monthly subscriptions active by default; others require payment
 
             if (subscription.Grade != user.Grade)
                 throw new Exception("Subscription grade must match user's grade.");
@@ -52,7 +53,7 @@ namespace Application.Services.Implementations
                 var currentYear = DateTime.UtcNow.Year;
                 subscription.StartDate = new DateTime(currentYear, 1, 8, 0, 0, 0, DateTimeKind.Utc);
                 subscription.EndDate = new DateTime(currentYear + 1, 1, 8, 0, 0, 0, DateTimeKind.Utc);
-                subscription.SubscribedMonths = Enumerable.Range(1, 12).ToList(); // Full year access
+                subscription.SubscribedMonths = Enumerable.Range(1, 12).ToList();
             }
             else if (subscriptionType == SubscriptionType.LectureBased)
             {
@@ -64,7 +65,7 @@ namespace Application.Services.Implementations
             else
             {
                 subscription.LectureCount = null;
-                subscription.Price = 0; // Default for non-lecture-based subscriptions
+                subscription.Price = 0;
             }
 
             await _subscriptionRepository.AddAsync(subscription);
@@ -88,6 +89,7 @@ namespace Application.Services.Implementations
 
             var subscription = _mapper.Map<Subscription>(subscriptionDto);
             subscription.Id = Guid.NewGuid();
+            subscription.IsActive = false; // Requires payment
 
             await _subscriptionRepository.AddAsync(subscription);
             return _mapper.Map<SubscriptionDto>(subscription);
@@ -99,7 +101,6 @@ namespace Application.Services.Implementations
             if (lesson == null)
                 return false;
 
-            // Check if user has redeemed a code for this lesson
             var hasAccessCode = await _lessonRepository.HasAccessCodeAsync(lessonId, userId);
             if (hasAccessCode)
                 return true;
@@ -108,7 +109,7 @@ namespace Application.Services.Implementations
 
             foreach (var subscription in subscriptions)
             {
-                if (subscription.Grade != lesson.Course.EducationalLevel)
+                if (!subscription.IsActive || subscription.Grade != lesson.Course.EducationalLevel)
                     continue;
 
                 if (subscription.Type == SubscriptionType.Monthly ||
@@ -134,13 +135,13 @@ namespace Application.Services.Implementations
             if (lesson == null)
                 throw new Exception("Lesson not found.");
 
-            // Check if access was granted via a code
             var hasAccessCode = await _lessonRepository.HasAccessCodeAsync(lessonId, userId);
             if (hasAccessCode)
-                return; // Access already granted via code and no need to mark in subscription
+                return;
 
             var subscriptions = await _subscriptionRepository.GetByUserIdAsync(userId);
             var validSubscription = subscriptions.FirstOrDefault(s =>
+                s.IsActive &&
                 s.Type == SubscriptionType.LectureBased &&
                 s.Grade == lesson.Course.EducationalLevel &&
                 s.LectureCount > s.AccessedLessons.Count &&
@@ -173,7 +174,6 @@ namespace Application.Services.Implementations
             {
                 await _subscriptionRepository.DeleteAsync(subscription.Id);
             }
-
         }
     }
 }
